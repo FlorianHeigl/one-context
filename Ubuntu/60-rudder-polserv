@@ -1,0 +1,19 @@
+#!/bin/bash
+
+CONFIG_FILE="/var/rudder/cfengine-community/policy_server.dat"
+
+function set_master() {
+    NAME=$1
+
+    [ -n "$NAME" ] || exit 0
+
+    if ! grep -q "$NAME" $CONFIG_FILE ; then
+        echo $NAME > $CONFIG_FILE
+        rudder agent reinit
+    fi
+
+}
+
+if [ -n "$SET_RUDDER_MASTER" ]; then
+    set_master $SET_RUDDER_MASTER
+fi
